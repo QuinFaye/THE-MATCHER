@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Drawer, Avatar, Typography, Divider, List, ListItemButton, ListItemIcon, ListItemText, IconButton } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PersonIcon from '@mui/icons-material/Person';
@@ -7,22 +7,30 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import LogoutIcon from '@mui/icons-material/Logout';
 import CloseIcon from '@mui/icons-material/Close';
+import { AuthContext } from '../context/AuthContext'; // import AuthContext
 
 const drawerWidth = 240;
 
 const Sidebar = ({ mobileOpen, handleDrawerToggle, isMobile }) => {
-  const drawerContent = (
-    <Box height="100%" display="flex" flexDirection="column" justifyContent="space-between" sx={{ backgroundColor: '#fff', color: '#000' }}>
+  const { user, logout } = useContext(AuthContext); // get user and logout from context
 
-          {/* Collapse button for mobile */}
-          {isMobile && (
-            <Box display="flex" justifyContent="flex-end">
-              <IconButton onClick={handleDrawerToggle}>
-                <CloseIcon />
-              </IconButton>
-            </Box>
-            )}
-      
+  const drawerContent = (
+    <Box
+      height="100%"
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+      sx={{ backgroundColor: '#fff', color: '#000' }}
+    >
+      {/* Collapse button for mobile */}
+      {isMobile && (
+        <Box display="flex" justifyContent="flex-end">
+          <IconButton onClick={handleDrawerToggle}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
+      )}
+
       {/* SECTION 1: Profile Info */}
       <Box
         sx={{
@@ -33,34 +41,45 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, isMobile }) => {
           flexDirection: isMobile ? 'row' : 'column',
           textAlign: isMobile ? 'left' : 'center',
           gap: isMobile ? 2 : 0,
-         mb: 2
-        }} >
-        <Avatar sx={{ width: 70, height: 70, m:1.8 }} />
-
-        <Box
-          sx={{
-            mb: 0.5
-          }}>
-          <Typography fontWeight={600}>George Bush</Typography>
-          <Typography variant="body2" color="text.secondary" >Student</Typography>
-       </Box>
+          mb: 2,
+        }}
+      >
+        <Avatar sx={{ width: 70, height: 70, m: 1.8 }} />
+        <Box sx={{ mb: 0.5 }}>
+          <Typography fontWeight={600}>
+            {user?.name
+              ? user.name
+              : 'George Bush' /* Fallback to previous static name */}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {user?.role
+              ? user.role
+              : 'Student' /* Fallback to previous static role */}
+          </Typography>
+        </Box>
       </Box>
 
-           <Divider sx={{ my:0 }} />
-     
+      <Divider sx={{ my: 0 }} />
+
       {/* SECTION 2: Main Nav */}
       <Box>
         <List>
           <ListItemButton>
-            <ListItemIcon><DashboardIcon /></ListItemIcon>
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
             <ListItemText primary="Dashboard" />
           </ListItemButton>
           <ListItemButton>
-            <ListItemIcon><PersonIcon /></ListItemIcon>
+            <ListItemIcon>
+              <PersonIcon />
+            </ListItemIcon>
             <ListItemText primary="Profile" />
           </ListItemButton>
           <ListItemButton>
-            <ListItemIcon><LibraryBooksIcon /></ListItemIcon>
+            <ListItemIcon>
+              <LibraryBooksIcon />
+            </ListItemIcon>
             <ListItemText primary="Resources" />
           </ListItemButton>
         </List>
@@ -72,27 +91,33 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, isMobile }) => {
       <Box>
         <List>
           <ListItemButton>
-            <ListItemIcon><SettingsIcon /></ListItemIcon>
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
             <ListItemText primary="Settings" />
           </ListItemButton>
           <ListItemButton>
-            <ListItemIcon><HelpOutlineIcon/></ListItemIcon>
+            <ListItemIcon>
+              <HelpOutlineIcon />
+            </ListItemIcon>
             <ListItemText primary="Support" />
           </ListItemButton>
         </List>
       </Box>
 
-      <Divider sx={{ mb:-5 }} />
+      <Divider sx={{ mb: -5 }} />
 
       {/* SECTION 4: Logout */}
       <Box>
         <List>
-          <ListItemButton> 
-          <ListItemIcon><LogoutIcon sx={{ fontWeight: 'bold' }}/></ListItemIcon>
-          <ListItemText 
-          primary="Logout"
-          primaryTypographyProps={{ fontWeight: 'bold' }}
-           />
+          <ListItemButton onClick={logout} sx={{ cursor: 'pointer' }}>
+            <ListItemIcon>
+              <LogoutIcon sx={{ fontWeight: 'bold' }} />
+            </ListItemIcon>
+            <ListItemText
+              primary="Logout"
+              primaryTypographyProps={{ fontWeight: 'bold' }}
+            />
           </ListItemButton>
         </List>
       </Box>
