@@ -4,8 +4,11 @@ from rest_framework import status, permissions
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import RegisterSerializer
+from django.contrib.auth import logout
+
 
 User = get_user_model()
+
 
 class RegisterView(APIView):
     def post(self, request):
@@ -15,9 +18,19 @@ class RegisterView(APIView):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
+            return Response(
+                {
+                    "message": "User registered successfully",
+                    'user': {
+                        'name': f"{serializer.data["first_name"]} {serializer.data["last_name"]}",
+                        'role': serializer.data["role"]
+                    }
+                }
+                , status=status.HTTP_201_CREATED
+            )
         print("Registration errors:", serializer.errors)  # Debug: print validation errors
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class LoginView(APIView):
     def post(self, request):
@@ -31,10 +44,20 @@ class LoginView(APIView):
             return Response({
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
-                'message': 'Login successful'
+                'message': 'Login successful',
+                'user': {
+                    'name': f"{user.first_name} {user.last_name}",
+                    'role': user.role
+                }
             }, status=status.HTTP_200_OK)
         print("Invalid login credentials")  # Debug
         return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+def logout_view(request):
+    logout(request)
+    return Response({"message": "Logout successfully"}, status=status.HTTP_200_OK)
+
 
 class ProfileView(APIView):
     permission_classes = [permissions.IsAuthenticated]

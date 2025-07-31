@@ -4,7 +4,8 @@ __pycache__/
 *.pyc
 .env
 db.sqlite3
-
+env/
+.idea
 # frontend
 frontend/node_modules/
 frontend/build/
