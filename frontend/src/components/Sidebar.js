@@ -8,11 +8,13 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import LogoutIcon from '@mui/icons-material/Logout';
 import CloseIcon from '@mui/icons-material/Close';
 import { AuthContext } from '../context/AuthContext'; // import AuthContext
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
 const Sidebar = ({ mobileOpen, handleDrawerToggle, isMobile }) => {
   const { user, logout } = useContext(AuthContext); // get user and logout from context
+  const navigate = useNavigate(); // useNavigate hook for navigation
 
   const drawerContent = (
     <Box
@@ -110,7 +112,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, isMobile }) => {
       {/* SECTION 4: Logout */}
       <Box sx={{ mt: -5 }}>
         <List>
-          <ListItemButton onClick={logout} sx={{ cursor: 'pointer' }}>
+          <ListItemButton  onClick={() => logout(navigate)}>
             <ListItemIcon sx={{ color: 'inherit' }}>
               <LogoutIcon sx={{ fontWeight: 'bold' }} />
             </ListItemIcon>

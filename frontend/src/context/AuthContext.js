@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
 
@@ -9,6 +10,7 @@ export const AuthProvider = ({ children }) => {
   });
 
   const [token, setToken] = useState(() => localStorage.getItem('token'));
+  //const navigate = useNavigate();
 
   const login = (userData, tokenData) => {
     localStorage.setItem('user', JSON.stringify(userData));
@@ -17,11 +19,12 @@ export const AuthProvider = ({ children }) => {
     setToken(tokenData);
   };
 
-  const logout = () => {
+  const logout = (navigate) => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     setUser(null);
     setToken(null);
+    navigate('/'); // Redirect to landing page after logout
   };
 
   return (

@@ -12,6 +12,8 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import { AuthProvider } from './context/AuthContext';
+
 
 const theme = createTheme({
   palette: {
@@ -23,7 +25,7 @@ const theme = createTheme({
       main: '#5900E7',
     },
     background: {
-      default: '#262626ff',
+      default: '#262626',
       paper: 'rgba(255,255,255,0.3)',
     },
     text: {
@@ -95,13 +97,15 @@ function App() {
       }} />
 
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/student_dashb" element={<StudentDashboard />} />
-          <Route path="/superv_dashb" element={<SupervisorDashboard />} />
-        </Routes>
+        <AuthProvider>  
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/student_dashb" element={<StudentDashboard />} />
+            <Route path="/superv_dashb" element={<SupervisorDashboard />} />
+          </Routes>
+        </AuthProvider>
        </BrowserRouter> 
     </ThemeProvider>
   );
