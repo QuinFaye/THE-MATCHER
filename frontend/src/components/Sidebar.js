@@ -20,7 +20,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, isMobile }) => {
       display="flex"
       flexDirection="column"
       justifyContent="space-between"
-      sx={{ backgroundColor: '#fff', color: '#000' }}
+      sx={{ backgroundColor: '#1f1f1fff', color: '#fff' }}
     >
       {/* Collapse button for mobile */}
       {isMobile && (
@@ -41,7 +41,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, isMobile }) => {
           flexDirection: isMobile ? 'row' : 'column',
           textAlign: isMobile ? 'left' : 'center',
           gap: isMobile ? 2 : 0,
-          mb: 2,
+          mb: -2,
         }}
       >
         <Avatar sx={{ width: 70, height: 70, m: 1.8 }} />
@@ -59,25 +59,25 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, isMobile }) => {
         </Box>
       </Box>
 
-      <Divider sx={{ my: 0 }} />
+      <Divider sx={{ my: 0.5, mt: -5, color: '#737373ff' }} />
 
       {/* SECTION 2: Main Nav */}
-      <Box>
+      <Box sx={{ mt: -9.5, mb: 8 }}>
         <List>
           <ListItemButton>
-            <ListItemIcon>
+            <ListItemIcon sx={{ color: 'inherit' }}>
               <DashboardIcon />
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
           </ListItemButton>
           <ListItemButton>
-            <ListItemIcon>
+            <ListItemIcon sx={{ color: 'inherit' }}>
               <PersonIcon />
             </ListItemIcon>
             <ListItemText primary="Profile" />
           </ListItemButton>
           <ListItemButton>
-            <ListItemIcon>
+            <ListItemIcon sx={{ color: 'inherit' }}>
               <LibraryBooksIcon />
             </ListItemIcon>
             <ListItemText primary="Resources" />
@@ -85,19 +85,19 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, isMobile }) => {
         </List>
       </Box>
 
-      <Divider sx={{ my: 2 }} />
+      <Divider sx={{ my: 2, mb: -5 }} />
 
       {/* SECTION 3: Settings & Support */}
-      <Box>
+      <Box sx={{ mt: -4, mb: -9 }}>
         <List>
           <ListItemButton>
-            <ListItemIcon>
+            <ListItemIcon sx={{ color: 'inherit' }}>
               <SettingsIcon />
             </ListItemIcon>
             <ListItemText primary="Settings" />
           </ListItemButton>
           <ListItemButton>
-            <ListItemIcon>
+            <ListItemIcon sx={{ color: 'inherit' }}>
               <HelpOutlineIcon />
             </ListItemIcon>
             <ListItemText primary="Support" />
@@ -108,10 +108,10 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle, isMobile }) => {
       <Divider sx={{ mb: -5 }} />
 
       {/* SECTION 4: Logout */}
-      <Box>
+      <Box sx={{ mt: -5 }}>
         <List>
           <ListItemButton onClick={logout} sx={{ cursor: 'pointer' }}>
-            <ListItemIcon>
+            <ListItemIcon sx={{ color: 'inherit' }}>
               <LogoutIcon sx={{ fontWeight: 'bold' }} />
             </ListItemIcon>
             <ListItemText

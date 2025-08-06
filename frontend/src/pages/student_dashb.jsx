@@ -28,8 +28,9 @@ export default function StudentDashboard() {
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          backgroundColor: '#ffffff',
-          color: '#000000',
+          backgroundColor: '#262626ff',
+          color: '#fff',
+          boxShadow: 'none',
         }}>
 
         <Toolbar 
@@ -87,26 +88,61 @@ export default function StudentDashboard() {
         isMobile={isMobile}
       />
 
-
-
       {/* Main content */}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          p: 0,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
           mt: 8, // To offset the AppBar
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: 'calc(100vh - 64px - 24px)', // Adjust for AppBar and padding
         }}
       >
-        <Typography variant="h4" gutterBottom>
-          Welcome, Student!
+        <Typography variant="h6" align="center" 
+        sx={{
+           mb: 6, 
+           fontWeight: 500, 
+           maxWidth: 500 
+           }}>
+          You do not have a supervisor yet, take a survey now <br />
+          to get the best matched supervisor <b>FOR YOU</b>
         </Typography>
-        <Typography>
-          Here’s your personalized dashboard. Start by selecting an option from the menu.
-        </Typography>
+        <Box
+          component="img"
+          src={require('../assets/takesurvey.svg').default}
+          alt="Take Survey"
+          sx={{ width: 600, height: 'auto', mb: 3 }}
+        />
+        <a href="/surveypg" style={{ textDecoration: 'none', width: 220 }}>
+          <Box
+            component="button"
+            sx={{
+              width: '100%',
+              background: '#9B31FF',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 30,
+              py: 1.2,
+              fontWeight: 700,
+              fontSize: '1rem',
+              cursor: 'pointer',
+              transition: 'background 0.2s',
+              '&:hover': {
+                background: '#7a25cc',
+              },
+            }}
+          >
+            Start Survey
+          </Box>
+        </a>
       </Box>
+
     </Box>
   );
 }
