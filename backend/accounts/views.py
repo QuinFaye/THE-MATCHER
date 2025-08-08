@@ -17,16 +17,19 @@ class RegisterView(APIView):
 
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            user = serializer.save()
+            # Generate JWT tokens for the new user
+            refresh = RefreshToken.for_user(user)
             return Response(
                 {
                     "message": "User registered successfully",
-                    'user': {
-                        'name': f"{serializer.data["first_name"]} {serializer.data["last_name"]}",
-                        'role': serializer.data["role"]
-                    }
-                }
-                , status=status.HTTP_201_CREATED
+                    "user": {
+                        "name": f"{user.first_name} {user.last_name}",
+                        "role": user.role
+                    },
+                    "token": str(refresh.access_token),  # <-- Add this line
+                },
+                status=status.HTTP_201_CREATED
             )
         print("Registration errors:", serializer.errors)  # Debug: print validation errors
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -47,7 +50,8 @@ class LoginView(APIView):
                 'message': 'Login successful',
                 'user': {
                     'name': f"{user.first_name} {user.last_name}",
-                    'role': user.role
+                    'role': user.role,
+                    "email": user.email
                 }
             }, status=status.HTTP_200_OK)
         print("Invalid login credentials")  # Debug
